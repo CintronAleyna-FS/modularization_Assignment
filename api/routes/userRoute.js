@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 const { findUser, postUser } = require('../../db/db');
+const jwt = require("jsonwebtoken");
+const checkAuth = require('../../auth/checkAuth');
+require('dotenv').config();
 
 router.post('/signup', async (req, res) => {
     // Grab user input password / email
@@ -51,12 +54,15 @@ router.post('/login', async (req, res) => {
         
             // test result    
             if (result){
-                // message  authorization was successful
+                // jwt after successful login
+                const token = jwt.sign({ email: userExists.email, id: userExists._id}, process.env.jwt_key);
                 res.status(200).json({
                     message: "Login - POST, Authorization Successful",
                     result: result,
                     name: req.body.firstName,
-                });
+                    message: 'Secrured', 
+                    token:token 
+                    })
             } else {
                 res.status(409).json({
                     message: "Authorization Failed",
@@ -70,11 +76,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/profile', (req, res) => {
-    res.json({
-        message: 'User Profile - GET',
-        hostname: req.hostname,
-    })
+router.get('/profile', checkAuth, (req, res, next) => {
+    res.status(200).json({ message: req.userData });
 });
 
 module.exports = router;
