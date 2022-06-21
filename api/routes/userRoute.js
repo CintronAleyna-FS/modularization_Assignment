@@ -28,12 +28,17 @@ router.post('/signup', async (req, res) => {
                 const user = new User({
                     _id: mongoose.Types.ObjectId(),
                     firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    address: req.body.address,
+                    city: req.body.city,
+                    state: req.body.states,
+                    zip: req.body.zip,
                     email: req.body.email,
                     password: hash,
                 })
                 // save user
                 postUser(user);
-                res.status(200).json({ message: 'Signup - POST', user: user })
+                res.status(201).json({ message: 'User created!', user: user })
             }
         })
     } 
@@ -55,11 +60,10 @@ router.post('/login', async (req, res) => {
             // test result    
             if (result){
                 // jwt after successful login
-                const token = jwt.sign({ email: userExists.email, id: userExists._id}, process.env.jwt_key);
-                res.status(200).json({
-                    message: "Login - POST, Authorization Successful",
+                const token = jwt.sign({ email: userExists.email, id: userExists._id, name: userExists.firstName}, process.env.jwt_key);
+                res.status(201).json({
                     result: result,
-                    name: req.body.firstName,
+                    name: userExists.firstName,
                     message: 'Secrured', 
                     token:token 
                     })
@@ -77,7 +81,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/profile', checkAuth, (req, res, next) => {
-    res.status(200).json({ message: req.userData });
+    res.status(201).json({ message: req.userData });
 });
 
 module.exports = router;
