@@ -1,0 +1,170 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "API Docs",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Aleyna Cintron",
+            "url": "dsds",
+            "email": "acintron1@student.fullsail.edu"
+        }
+    },
+    "servers": [{
+        "url": "http://localhost:3001/users",
+        "description": "Local Server"
+    }],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Post post"
+                ],
+                "summary": "Post a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": { 
+                                    "id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "default": "Aleyna"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "default": "Cintron"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "default": "123 funsun st"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "default": "sunny"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "default": "FL"
+                                    },
+                                    "zip": {
+                                        "type": "string",
+                                        "default": "27162"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "acintron1@student.fullsail.edu"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "Santa100"
+                                    }   
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success"
+                    },
+                    "201":{
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to Post your user"
+                    },
+                    "501": {
+                        "description": "Unable to Post your user"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "POST user login"
+                ],
+                "summary": "login to user account",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": { 
+                                    "id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "default": "Aleyna"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "acintron1@student.fullsail.edu"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "Santa100"
+                                    }   
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Secured"
+                    },
+                    "201":{
+                        "description": "Secured"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "409": {
+                        "description": "Authorization Failed"
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "tags": ["Get user profile"],
+                "summary": "Get user profile",
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to successfully login to user profile"
+                    }
+                }
+            }
+        }
+    }
+}
